@@ -16,9 +16,23 @@ module.exports = {
       .set('@', resolve('./src'))
       .set('less', resolve('./src/assets/less'))
       .set('img', resolve('./src/assets/img'))
+      .set('svg', resolve('./src/assets/svg'))
+
       .set('components', resolve('./src/components'))
-      .set('config', resolve('./src/config'))
       .set('views', resolve('./src/views'))
       .set('utils', resolve('./src/utils'))
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        host: '127.0.0.1',
+        port: 8888,
+        target: 'http://127.0.0.1:8888/api/private/v1/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
   },
 }

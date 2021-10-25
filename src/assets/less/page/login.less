@@ -1,0 +1,112 @@
+@import '../import.less';
+/deep/.el-popconfirm__main {
+  margin-bottom: 15px;
+}
+.login {
+  display: flex;
+  height: 100vh;
+  .login_img {
+    flex: 1;
+    background: @theme-color;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .circular {
+      width: 200px;
+      height: 200px;
+      background: #36a7f5;
+      border-radius: 100%;
+      position: absolute;
+      top: -30px;
+      left: -30px;
+    }
+    .banner {
+      width: 400px;
+      &_title {
+        text-align: center;
+        color: @red50;
+        margin-top: 20px;
+        font-size: 20px;
+      }
+    }
+  }
+  .login_input {
+    flex: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .center {
+      max-width: 392px;
+      .login_text {
+        color: #4a5761;
+        font-size: 19px;
+        border: 0;
+        margin-bottom: 50px;
+        font-weight: 400;
+        small {
+          color: #4a5761;
+          font-size: 12px;
+          margin-left: 5px;
+        }
+      }
+      .login_form {
+        position: relative;
+        input {
+          width: 100%;
+          padding: 19px 30px;
+          border-radius: 100px;
+          text-align: left;
+          background-color: #ffffff;
+          border: 0;
+          font-size: 15px;
+          color: @theme-color;
+          box-shadow: 0 6px 20px 0 rgba(18, 113, 179, 0.15);
+          transition: all 0.3s ease 0s;
+          margin-bottom: 20px;
+        }
+        .login_submit {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 10px;
+          .login_button {
+            text-align: center;
+            border: 0;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 10px 20px;
+            width: 70px;
+            border-radius: 100px;
+            background-color: @theme-color;
+            box-shadow: 0 12px 32px 0 #008ef2b0;
+            outline: none;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            i {
+              margin-left: 10px;
+              font-size: 16px;
+            }
+
+            &:hover {
+              width: 80px;
+              background-color: #0080d9;
+            }
+          }
+          .reg_text {
+            color: #abb4bc;
+            font-size: 14px;
+            span {
+              color: @theme-color;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
