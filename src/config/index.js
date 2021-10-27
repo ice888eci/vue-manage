@@ -5,9 +5,10 @@ const config = {
     timeout: 3000,
     urls: {
       login: `login`,
-    },
+      menus: `menus`
+    }
   },
-  TokenName: `MallToken`,
+  TokenName: `MallToken`
 }
 Object.freeze(config)
 export default config

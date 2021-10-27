@@ -19,7 +19,6 @@ class Dao {
         return config
       },
       error => {
-        Notify({ type: "error", title: "请求失败", message: "当前网略不太好" })
         Promise.reject(error)
       }
     )
@@ -49,6 +48,7 @@ class Dao {
         return response
       },
       error => {
+        loadingInstance.close()
         Notify({ type: "error", title: "响应失败", message: "当前网略不太好" })
         return Promise.reject(error)
       }
@@ -58,7 +58,7 @@ class Dao {
     try {
       return await axios.get(params.url, {
         params: params.data,
-        headers: { ...utils.getToken(), ...params.header }
+        headers: { Authorization: utils.getToken(), ...params.header }
       })
     } catch (e) {
       throw new Error(`GET-Error:${e.message}`)
@@ -67,7 +67,7 @@ class Dao {
   async post(params) {
     try {
       return await axios.post(params.url, params.data, {
-        headers: { ...utils.getToken(), ...params.header }
+        headers: { Authorization: utils.getToken(), ...params.header }
       })
     } catch (e) {
       throw new Error(`POST-Error:${e.message}`)

@@ -1,16 +1,16 @@
 <template>
-  <div class="el_header"></div>
+  <div class="Roles"></div>
 </template>
 
 <script>
 export default {
-  name: "ElHeader",
+  name: "IndexRoles",
   data() {
-    return {};
+    return {}
   },
 
   components: {},
-};
+}
 </script>
 
 <style  scoped lang='less'>

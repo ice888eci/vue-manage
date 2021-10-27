@@ -10,6 +10,16 @@ class Api {
       return null
     }
   }
+
+  async menus(requestParams = {}) {
+    const params = { data: requestParams, url: config.http.urls.menus, header: {} }
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
 }
 
 export default new Api()

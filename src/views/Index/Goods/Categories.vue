@@ -1,15 +1,16 @@
 <template>
-  <div class="el_aside"></div>
+  <div class="categories"></div>
 </template>
 
 <script>
 export default {
-  name: "ElAside",
+  name: "IndexCategories",
   data() {
-    return {};
+    return {}
   },
+
   components: {},
-};
+}
 </script>
 
 <style  scoped lang='less'>

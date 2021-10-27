@@ -17,10 +17,82 @@ const routes = [
     meta: { isLogin: true },
     redirect: "home",
     children: [
+      /**
+       * 首页路由
+       */
       {
         path: "home",
         name: "IndexHome",
         component: () => import("../views/Index/Home.vue"),
+        meta: { isLogin: true }
+      },
+
+      /**
+       * 用户管理路由 manage
+       */
+      {
+        path: "users",
+        name: "IndexUsers",
+        component: () => import("../views/Index/Users/Users.vue"),
+        meta: { isLogin: true }
+      },
+
+      /**
+       * 权限管理路由
+       */
+      {
+        path: "roles",
+        name: "IndexRoles",
+        component: () => import("../views/Index/Rights/Roles.vue"),
+        meta: { isLogin: true }
+      },
+      {
+        path: "rights",
+        name: "IndexRights",
+        component: () => import("../views/Index/Rights/Rights.vue"),
+        meta: { isLogin: true }
+      },
+
+      /**
+       * 商品管理路由
+       */
+      {
+        path: "goods",
+        name: "IndexGoods",
+        component: () => import("../views/Index/Goods/Goods.vue"),
+        meta: { isLogin: true }
+      },
+      {
+        path: "params",
+        name: "IndexParams",
+        component: () => import("../views/Index/Goods/Params.vue"),
+        meta: { isLogin: true }
+      },
+
+      {
+        path: "categories",
+        name: "IndexCategories",
+        component: () => import("../views/Index/Goods/Categories.vue"),
+        meta: { isLogin: true }
+      },
+
+      /**
+       * 订单管理路由
+       */
+      {
+        path: "orders",
+        name: "IndexOrders",
+        component: () => import("../views/Index/Orders/Orders.vue"),
+        meta: { isLogin: true }
+      },
+
+      /**
+       * 数据管理路由
+       */
+      {
+        path: "reports",
+        name: "IndexReports",
+        component: () => import("../views/Index/Reports/Reports.vue"),
         meta: { isLogin: true }
       }
     ]

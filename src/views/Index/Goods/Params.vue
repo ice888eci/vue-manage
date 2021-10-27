@@ -1,16 +1,16 @@
 <template>
-  <div class="el_tabs"></div>
+  <div class="params"></div>
 </template>
 
 <script>
 export default {
-  name: "ElTabs",
+  name: "IndexParams",
   data() {
-    return {};
+    return {}
   },
 
   components: {},
-};
+}
 </script>
 
 <style  scoped lang='less'>

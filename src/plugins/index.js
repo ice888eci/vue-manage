@@ -1,6 +1,25 @@
 import Vue from "vue"
 import "element-ui/lib/theme-chalk/index.css"
-import { Carousel, CarouselItem, Form, FormItem, Input, Button } from "element-ui"
+import {
+  Carousel,
+  CarouselItem,
+  Form,
+  FormItem,
+  Input,
+  Button,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Icon,
+  Menu,
+  MenuItem,
+  MenuItemGroup,
+  Submenu,
+  Notification,
+  Tabs,
+  TabPane
+} from "element-ui"
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 
@@ -8,8 +27,21 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Input)
 Vue.use(Button)
-// Vue.use(Notification)
+Vue.use(Container)
+Vue.use(Header)
+Vue.use(Aside)
+Vue.use(Main)
+Vue.use(Icon)
 
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(MenuItemGroup)
+Vue.use(Submenu)
+
+Vue.use(Tabs)
+Vue.use(TabPane)
+
+// Vue.use(Notification)
 // Vue.prototype.$notify = Notification
 
 // import {
@@ -54,7 +86,7 @@ Vue.use(Button)
 //   Tree,
 //   Alert,
 //   Slider,
-//   Icon,
+
 //   Row,
 //   Col,
 //   Upload,

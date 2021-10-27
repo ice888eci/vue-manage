@@ -1,6 +1,8 @@
 import Vue from "vue"
 import App from "./App.vue"
+import store from "./store"
 import router from "./router"
+
 import api from "./api"
 import utils from "./utils"
 import page from "./utils/page"
@@ -12,4 +14,4 @@ Vue.prototype.$page = page
 
 Vue.config.productionTip = false
 
-new Vue({ router, render: h => h(App) }).$mount("#app")
+new Vue({ router, store, render: h => h(App) }).$mount("#app")
