@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import ElEHeader from "../components/Element/ElEHeader"
-import ElEAside from "../components/Element/ElEAside"
-import ElETabs from "../components/Element/ElETabs"
+import ElEHeader from "components/Element/ElEHeader"
+import ElEAside from "components/Element/ElEAside"
+import ElETabs from "components/Element/ElETabs"
 export default {
   name: "Index",
   data() {

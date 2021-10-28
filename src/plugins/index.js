@@ -18,7 +18,19 @@ import {
   Submenu,
   Notification,
   Tabs,
-  TabPane
+  TabPane,
+  Card,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Switch,
+  Tooltip,
+  Pagination,
+  Dialog,
+  MessageBox,
+  Message,
+  Popconfirm
 } from "element-ui"
 Vue.use(Carousel)
 Vue.use(CarouselItem)
@@ -41,8 +53,25 @@ Vue.use(Submenu)
 Vue.use(Tabs)
 Vue.use(TabPane)
 
-// Vue.use(Notification)
-// Vue.prototype.$notify = Notification
+Vue.use(Card)
+
+Vue.use(Row)
+Vue.use(Col)
+
+Vue.use(Table)
+Vue.use(TableColumn)
+
+Vue.use(Switch)
+Vue.use(Tooltip)
+
+Vue.use(Pagination)
+
+Vue.use(Dialog)
+
+// Vue.use(Popconfirm)
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$notify = Notification
+Vue.prototype.$message = Message
 
 // import {
 //   Pagination,
@@ -69,8 +98,7 @@ Vue.use(TabPane)
 //   OptionGroup,
 //   Button,
 //   ButtonGroup,
-//   Table,
-//   TableColumn,
+
 //   DatePicker,
 //   TimeSelect,
 //   TimePicker,
@@ -78,8 +106,7 @@ Vue.use(TabPane)
 //   Tooltip,
 //   Breadcrumb,
 //   BreadcrumbItem,
-//   Form,
-//   FormItem,
+
 //   Tabs,
 //   TabPane,
 //   Tag,
@@ -133,5 +160,5 @@ Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
-Vue.prototype.$message = Message;
+
   */

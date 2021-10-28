@@ -5,7 +5,13 @@ const config = {
     timeout: 3000,
     urls: {
       login: `login`,
-      menus: `menus`
+      menus: `menus`,
+      users: `users`,
+      users_status: `users/:uId/state/:type`,
+      add_users: `users`,
+      search_users: `users/:id`,
+      edit_users: `users/:id`,
+      del_users: `users/:id`
     }
   },
   TokenName: `MallToken`

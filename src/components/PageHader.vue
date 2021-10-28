@@ -1,7 +1,7 @@
 <script>
 import "@/assets/less/components/PageHader.less"
 export default {
-  functional: true,
+  // functional: true,
   props: {
     title: { type: String, default: "", require: true },
     subtitle: {
@@ -21,12 +21,13 @@ export default {
       },
     },
   },
-  render(h, { props }) {
+
+  render(h) {
     return (
       <div class="page_header">
-        <i class="el-icon-back"></i>
-        <h1>{props.title}</h1>
-        <span>{props.subtitle}</span>
+        <i class="el-icon-back" onClick={() => this.$router.back()}></i>
+        <h1>{this.title}</h1>
+        <span>{this.subtitle}</span>
       </div>
     )
   },

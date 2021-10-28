@@ -25,6 +25,13 @@ class Utils {
     }
     return false
   }
+
+  formatReqPath(url, params) {
+    for (const [key, val] of Object.entries(params)) {
+      url = url.replace(`:${key}`, val)
+    }
+    return url
+  }
 }
 export default new Utils()
 
