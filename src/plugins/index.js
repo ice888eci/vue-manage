@@ -30,7 +30,11 @@ import {
   Dialog,
   MessageBox,
   Message,
-  Popconfirm
+  Popconfirm,
+  Tag,
+  Tree,
+  Select,
+  Option
 } from "element-ui"
 Vue.use(Carousel)
 Vue.use(CarouselItem)
@@ -68,6 +72,11 @@ Vue.use(Pagination)
 
 Vue.use(Dialog)
 
+Vue.use(Tag)
+Vue.use(Tree)
+
+Vue.use(Select)
+Vue.use(Option)
 // Vue.use(Popconfirm)
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification
@@ -93,8 +102,7 @@ Vue.prototype.$message = Message
 //   CheckboxButton,
 //   CheckboxGroup,
 //   Switch,
-//   Select,
-//   Option,
+
 //   OptionGroup,
 //   Button,
 //   ButtonGroup,
@@ -109,8 +117,8 @@ Vue.prototype.$message = Message
 
 //   Tabs,
 //   TabPane,
-//   Tag,
-//   Tree,
+//
+//
 //   Alert,
 //   Slider,
 

@@ -68,6 +68,26 @@ class Api {
     }
   }
 
+  /***
+   * @PUT
+   * @param {id!:string|number} 用户ID
+   * @param {type!:boolean} 分配用户角色
+   */
+  async user_role(requestParams = {}) {
+    const params = {
+      data: { rid: requestParams.rid },
+      url: utils.formatReqPath(config.http.urls.user_role, requestParams),
+      header: {}
+    }
+    try {
+      const res = await dao.put(params)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
   /**
    * @POST
    * @param {username!:string} 用户名称
@@ -77,6 +97,7 @@ class Api {
    */
   async add_users(requestParams = {}) {
     const params = { data: requestParams, url: config.http.urls.add_users, header: {} }
+    console.log(params)
     try {
       return await dao.post(params)
     } catch (e) {
@@ -137,6 +158,176 @@ class Api {
     try {
       const res = await dao.delete(params)
       console.log(res, 11)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name 权限管理
+   * @GET
+   * @param {type!:string} 值 list or tree list列表显示权限, tree树状显示权限
+   * @desc 所有权限列表接口
+   */
+  async all_rights(requestParams = {}) {
+    const params = {
+      data: {},
+      url: utils.formatReqPath(config.http.urls.all_rights, requestParams),
+      header: {}
+    }
+    // console.log(params)
+    try {
+      const res = await dao.get(params)
+      // console.log(res, 11)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @DELETE
+   * @param {type!:string} 值 list or tree list列表显示权限, tree树状显示权限
+   * @desc 角色列表
+   */
+  async all_roles(requestParams = {}) {
+    const params = {
+      data: {},
+      url: utils.formatReqPath(config.http.urls.all_roles, requestParams),
+      header: {}
+    }
+    // console.log(params)
+    try {
+      const res = await dao.get(params)
+      // console.log(res, 11)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @POST
+   * @param {type!:string} 值 roleName角色名称 or roleDesc角色描述
+   * @desc 添加角色
+   */
+  async add_roles(requestParams = {}) {
+    const params = { data: requestParams, url: config.http.urls.add_roles, header: {} }
+    // console.log(params)
+    try {
+      return await dao.post(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @GET
+   * @param {id!:string} 角色 ID
+   * @desc 根据ID查询角色
+   */
+  async search_roles(requestParams = {}) {
+    const params = {
+      data: {},
+      url: utils.formatReqPath(config.http.urls.search_roles, requestParams),
+      header: {}
+    }
+    try {
+      const res = await dao.get(params)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @PUT
+   * @param {id!:string,roleName?:string,roleDesc?:string}
+   * @desc 编辑提交角色
+   */
+  async edit_roles(requestParams = {}) {
+    const params = {
+      data: requestParams,
+      url: utils.formatReqPath(config.http.urls.edit_roles, requestParams),
+      header: {}
+    }
+    console.log(params)
+    try {
+      const res = await dao.put(params)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @DELETE
+   * @param {id!:string}
+   * @desc 删除角色
+   */
+  async del_roles(requestParams = {}) {
+    const params = {
+      data: {},
+      url: utils.formatReqPath(config.http.urls.del_roles, requestParams),
+      header: {}
+    }
+    try {
+      const res = await dao.delete(params)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @DELETE
+   * @param {roleId!:string,rightId:string}
+   * @desc 删除角色指定的权限
+   */
+  async del_user_roles(requestParams = {}) {
+    const params = {
+      data: {},
+      url: utils.formatReqPath(config.http.urls.del_user_roles, requestParams),
+      header: {}
+    }
+    try {
+      const res = await dao.delete(params)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @name
+   * @POST
+   * @param {roleId!:string,rightId:string}
+   * @desc 更新树状权限
+   */
+  async update_roles(requestParams = {}) {
+    const params = {
+      data: { rids: requestParams.rids },
+      url: utils.formatReqPath(config.http.urls.update_roles, requestParams),
+      header: {}
+    }
+    console.log(params)
+    try {
+      const res = await dao.post(params)
       return res
     } catch (e) {
       console.log(e.message)

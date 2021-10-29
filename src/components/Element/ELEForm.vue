@@ -126,8 +126,8 @@
     </el-form-item>
 
     <el-form-item v-if="formData.isShowBtn == true">
-      <el-button type="primary" @click="onSubmit('ruleForm')"> 保存 </el-button>
-      <el-button @click="resetForm('ruleForm')"> 重置 </el-button>
+      <el-button type="primary" @click="onSubmit()"> 保存 </el-button>
+      <el-button @click="resetForm()"> 重置 </el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -154,8 +154,8 @@ export default {
     this.initValue(this.formData.formItem)
   },
   methods: {
-    onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
+    onSubmit() {
+      this.formRef.validate(valid => {
         if (valid) {
           console.log(this.form)
         } else {
@@ -163,9 +163,10 @@ export default {
         }
       })
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
+    resetForm() {
+      this.formRef.resetFields()
     },
+
     initValue(arr) {
       const obj = {}
       arr.forEach(item => {
@@ -182,11 +183,19 @@ export default {
       })
     },
   },
+
   // 每次打开编辑都需要更新一次 v-model双向绑定更新的太慢
   watch: {
     formData: {
       handler(val) {
         this.initValue(val.formItem)
+        console.log(1)
+      },
+      deep: true,
+    },
+    form: {
+      handler(val) {
+        this.$emit("values", val)
       },
       deep: true,
     },

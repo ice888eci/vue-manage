@@ -34,7 +34,8 @@ const PageStaticData = {
         children: []
       }
     }
-  }
+  },
+  users: {}
 }
 Object.freeze(PageStaticData)
 export default PageStaticData

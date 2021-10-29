@@ -2,7 +2,7 @@
   <div class="users">
     <PageHader title="管理用户"></PageHader>
 
-    <el-card class="users_card">
+    <el-card class="card">
       <!-- 操作区域 -->
       <section class="users_card_operate">
         <el-row :gutter="20">
@@ -26,7 +26,6 @@
       <!-- 表单区域 -->
       <section class="users_card_table" style="margin: 20px 0">
         <el-table ref="table" :data="users" highlight-current-row border empty-text="暂无数据">
-          <!--      @current-change="onCurrentChange" -->
           <el-table-column type="index" label="#" width="60"> </el-table-column>
           <el-table-column property="username" label="姓名" width="150"> </el-table-column>
           <el-table-column property="email" label="邮箱" width="200"> </el-table-column>
@@ -62,7 +61,12 @@
                 ></el-button>
               </el-tooltip>
               <el-tooltip content="分配用户" placement="top" :enterable="false">
-                <el-button type="warning" icon="el-icon-thumb" size="mini"></el-button>
+                <el-button
+                  type="warning"
+                  icon="el-icon-thumb"
+                  size="mini"
+                  @click="onRightsUser(slotProps.row)"
+                ></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -84,7 +88,7 @@
         @confirm="onAddUserConfirm"
         @changeStatus="() => (userAddDialog = false)"
       >
-        <ELEForm :formData="addUserForm" ref="addFormRef"></ELEForm>
+        <ELEForm :formData="addUserForm" ref="addFormRef" @values="v => (addValues = v)"></ELEForm>
       </ELEDialog>
 
       <!-- 编辑用户弹出层 -->
@@ -94,7 +98,34 @@
         @confirm="onEditUserConfirm"
         @changeStatus="() => (userEditDialog = false)"
       >
-        <ELEForm :formData="editUserForm" ref="editFormRef"></ELEForm>
+        <ELEForm
+          :formData="editUserForm"
+          ref="editFormRef"
+          @values="v => (editValues = v)"
+        ></ELEForm>
+      </ELEDialog>
+
+      <!-- 分配角色弹出层 -->
+      <ELEDialog
+        width="55%"
+        title="设置权限"
+        :isShow="isShowRightsDialog"
+        @confirm="rightsConfirm"
+        @changeStatus="() => (isShowRightsDialog = false)"
+      >
+        <section class="user_dialog">
+          <p>当前用户:{{ roleUserConfig.role.username }}</p>
+          <p>当前身份:{{ roleUserConfig.role.role_name }}</p>
+          <el-select v-model="roleUserConfig.selected" clearable placeholder="请选择角色">
+            <el-option
+              v-for="item in roleUserConfig.list"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </section>
       </ELEDialog>
     </el-card>
   </div>
@@ -124,6 +155,9 @@ export default {
       pages: { query: "", pagenum: 1, pagesize: 2, total: 0 },
       userAddDialog: false,
       userEditDialog: false,
+      isShowRightsDialog: false,
+      addValues: {},
+      editValues: {},
       editUserForm: {
         id: null,
         labelWidth: "70px",
@@ -232,10 +266,15 @@ export default {
           ],
         },
       },
+      roleUserConfig: {
+        role: {},
+        selected: "",
+        list: [],
+      },
     }
   },
   created() {
-    this.ReqInit()
+    this.ReqInit(0)
   },
   computed: {
     addFormRef() {
@@ -247,6 +286,46 @@ export default {
   },
 
   methods: {
+    /**
+     * @param {type:string}}
+     * @desc 角色列表接口
+     */
+    async AllRoles() {
+      return await this.$api.all_roles()
+    },
+
+    /**
+     * @desc 角色列表接口
+     */
+    async UserRole(params) {
+      return await this.$api.user_role(params)
+    },
+
+    /**
+     * @desc 打开分配弹出侧并请求到身份接口用于遍历展示
+     */
+    async onRightsUser(role) {
+      // 点击清空上一次的
+      this.roleUserConfig.selected = ""
+      this.roleUserConfig.role = {}
+      this.roleUserConfig.list = []
+
+      // 赋值点击进来渲染的
+      this.roleUserConfig.role = role
+      this.isShowRightsDialog = true
+      this.roleUserConfig.list = await this.AllRoles()
+      // console.log(this.roleUserConfig)
+    },
+
+    /**
+     * @desc 点击确认分配弹出按钮如果没有则提示用户，如果有则请求更新接口
+     */
+    async rightsConfirm() {
+      if (this.roleUserConfig.selected == "") return this.$message.warning("请选择角色")
+      await this.UserRole({ id: this.roleUserConfig.role.id, rid: this.roleUserConfig.selected })
+      this.ReqInit()
+      this.isShowRightsDialog = false
+    },
     /**
      * @param {id:number}} 用户Id
      * @desc 点击按钮后触发事件，根据ID请求用户编辑数据，随后把响应数据对应赋值到编辑表单中,然后更新ReqInit接口
@@ -263,10 +342,14 @@ export default {
           }
         }
       }
-      this.ReqInit()
+      // this.ReqInit()
       this.userEditDialog = true
     },
 
+    /**
+     * @param {id:number}} 用户Id
+     * @desc 点击按钮后触发事件，根据ID删除用户数据,然后更新ReqInit接口
+     */
     async onDelUser(id) {
       try {
         await this.$confirm("此操作将永久删除该用户,是否继续?", "温馨提示", { type: "warning" })
@@ -286,7 +369,7 @@ export default {
     async onEditUserConfirm(state) {
       const checkAllStatus = await this.editFormRef.validate()
       if (!checkAllStatus) return
-      const params = { id: this.editUserForm.id, ...this.editFormRef.form }
+      const params = { id: this.editUserForm.id, ...this.editValues }
       this.EditUser(params)
       this.ReqInit()
       this.userEditDialog = state
@@ -314,6 +397,7 @@ export default {
      */
     async DelUser(id) {
       await this.$api.del_users({ id })
+      this.ReqInit()
     },
 
     /**
@@ -323,8 +407,9 @@ export default {
     async onAddUserConfirm(state) {
       const checkAllStatus = await this.addFormRef.validate()
       if (!checkAllStatus) return
-      const params = this.addFormRef.form
-      this.AddUsers(params)
+      // 子组件Emit上来同步的值 直接ref拿拿不到最新的会导致每次添加都添加一样的数据
+      this.AddUsers(this.addValues)
+      this.ReqInit()
       this.userAddDialog = false
     },
 
@@ -342,12 +427,18 @@ export default {
      * @returns {void}
      * @desc 请求的table数据列表
      */
-    async ReqInit() {
-      const { query, pagenum, pagesize } = this.pages
-      const { pagenum: pageNum, total, users } = await this.$api.users({ query, pagenum, pagesize })
-      this.users = users
-      this.pages.total = total
-      this.pages.pagenum = pageNum
+    ReqInit(timeout = 500) {
+      setTimeout(async () => {
+        const { query, pagenum, pagesize } = this.pages
+        const {
+          pagenum: pageNum,
+          total,
+          users,
+        } = await this.$api.users({ query, pagenum, pagesize })
+        this.users = users
+        this.pages.total = total
+        this.pages.pagenum = pageNum
+      }, timeout)
     },
 
     /**
@@ -373,4 +464,11 @@ export default {
 </script>
 
 <style  scoped lang='less'>
+.user_dialog {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 15px;
+}
 </style>

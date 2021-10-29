@@ -2,25 +2,25 @@ import { Notification } from "element-ui"
 import config from "../config"
 class Utils {
   setToken(token) {
-    localStorage.setItem(config.TokenName, token)
+    sessionStorage.setItem(config.TokenName, token)
   }
   getToken() {
-    return localStorage.getItem(config.TokenName)
+    return sessionStorage.getItem(config.TokenName)
   }
   delToken() {
-    return localStorage.removeItem(config.TokenName)
+    return sessionStorage.removeItem(config.TokenName)
   }
   setData(key, data) {
     let formatData = typeof data == "object" ? JSON.stringify(data) : data
-    localStorage.setItem(key, formatData)
+    sessionStorage.setItem(key, formatData)
   }
   getData(key) {
-    if (localStorage.getItem(key) != null) {
+    if (sessionStorage.getItem(key) != null) {
       try {
-        return JSON.parse(localStorage.getItem(key))
+        return JSON.parse(sessionStorage.getItem(key))
       } catch (e) {
         // console.log("字符串类型的不需要转JSON")
-        return localStorage.getItem(key)
+        return sessionStorage.getItem(key)
       }
     }
     return false
@@ -31,6 +31,14 @@ class Utils {
       url = url.replace(`:${key}`, val)
     }
     return url
+  }
+
+  getLeafKeys(node, arr) {
+    // 如果当前 node 节点不包含 children属性, 则是三级节点
+    if (!node.children) return arr.push(node.id)
+    node.children.forEach(item => {
+      this.getLeafKeys(item, arr)
+    })
   }
 }
 export default new Utils()

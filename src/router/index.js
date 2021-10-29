@@ -1,9 +1,13 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import config from "../config"
-
+import utils from "../utils"
 Vue.use(VueRouter)
 const routes = [
+  {
+    path: "/",
+    redirect: "/login"
+  },
   {
     path: "/login",
     name: "Login",
@@ -107,14 +111,14 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.isLogin) {
-    if (localStorage.getItem(config.TokenName) != null) {
+    if (utils.getData(config.TokenName) != null) {
       return next()
     } else {
       next({ path: "/login" })
     }
   } else {
     // 登录后不让进login
-    if (localStorage.getItem(config.TokenName) != null && to.path == "/login") {
+    if (utils.getData(config.TokenName) != null && to.path == "/login") {
       router.back()
     }
     next()
