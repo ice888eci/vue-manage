@@ -36,10 +36,12 @@ import {
   Tag,
   Tree,
   Select,
-  Option
+  Option,
+  Alert
 } from "element-ui"
 
 const comps = [
+  Alert,
   Cascader,
   Carousel,
   CarouselItem,

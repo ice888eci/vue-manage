@@ -400,14 +400,15 @@ class Api {
   /**
    * @GET
    * @desc 1.7.1. 参数列表
+   * @require FormatReqPath
    */
   async all_attributes(par = {}) {
     const params = {
-      data: par,
-      url: config.http.urls.all_attributes,
+      data: { sel: par.sel },
+      url: FormatReqPath(config.http.urls.all_attributes, par),
       header: {}
     }
-    // console.log(params)
+
     try {
       return await dao.get(params)
     } catch (e) {
@@ -421,7 +422,12 @@ class Api {
    * @desc 1.6.2. 添加分类
    */
   async add_attributes(par = {}) {
-    const params = { data: par, url: config.http.urls.add_attributes, header: {} }
+    const params = {
+      data: par,
+      url: FormatReqPath(config.http.urls.all_attributes, par),
+      header: {}
+    }
+
     try {
       return await dao.post(params)
     } catch (e) {
@@ -436,10 +442,11 @@ class Api {
    */
   async search_attributes(par = {}) {
     const params = {
-      data: {},
+      data: { attr_sel: par.attr_sel },
       url: FormatReqPath(config.http.urls.search_attributes, par),
       header: {}
     }
+
     try {
       return await dao.get(params)
     } catch (e) {
@@ -454,12 +461,36 @@ class Api {
    */
   async update_attributes(par = {}) {
     const params = {
-      data: { cat_name: par.cat_name },
+      data: { attr_name: par.attr_name, attr_sel: par.attr_sel, attr_vals: par.attr_vals || "" },
       url: FormatReqPath(config.http.urls.update_attributes, par),
       header: {}
     }
+    console.log(params)
     try {
-      return await dao.put(params)
+      const res = await dao.put(params)
+      console.log(res)
+      return res
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @PUT
+   * @desc 1.6.4. 编辑提交分类
+   */
+  async update_attributes_tag(par = {}) {
+    const params = {
+      data: { attr_name: par.attr_name, attr_sel: par.attr_sel, attr_vals: par.attr_vals },
+      url: FormatReqPath(config.http.urls.update_attributes, par),
+      header: {}
+    }
+    console.log(params)
+    try {
+      const res = await dao.put(params)
+      console.log(res)
+      return res
     } catch (e) {
       console.log(e.message)
       return null
@@ -476,6 +507,7 @@ class Api {
       url: FormatReqPath(config.http.urls.del_attributes, par),
       header: {}
     }
+
     try {
       return await dao.delete(params)
     } catch (e) {

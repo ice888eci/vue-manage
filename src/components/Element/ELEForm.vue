@@ -164,7 +164,7 @@ export default {
   },
   created() {
     this.initValue(this.formData.formItem)
-    console.log(this.formData, 111)
+    // console.log(this.formData, 111)
   },
   methods: {
     onSubmit() {
