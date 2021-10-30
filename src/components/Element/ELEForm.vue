@@ -15,7 +15,12 @@
       :prop="item.prop"
     >
       <!-- 文本框 -->
-      <el-input v-if="item.type === 'text'" v-model="form[item.prop]" :disabled="item.isDisabled" />
+      <el-input
+        v-if="item.type === 'text'"
+        v-model="form[item.prop]"
+        :disabled="item.isDisabled"
+        :placeholder="item.placeholder || '请输入'"
+      />
       <!-- 密码框 -->
       <el-input
         v-if="item.type === 'password'"
@@ -87,8 +92,9 @@
       <el-cascader
         v-if="item.type === 'cascader'"
         v-model="form[item.prop]"
-        :options="item.options"
-        :props="item.isMore"
+        :options="optionsData"
+        :placeholder="item.placeholder || '请选择'"
+        :props="item.props || {}"
         clearable
       />
       <!-- 开关 -->
@@ -139,6 +145,12 @@ export default {
       type: Object,
       required: true,
     },
+    optionsData: {
+      type: Array,
+      default() {
+        return []
+      },
+    },
   },
   data() {
     return {
@@ -152,6 +164,7 @@ export default {
   },
   created() {
     this.initValue(this.formData.formItem)
+    console.log(this.formData, 111)
   },
   methods: {
     onSubmit() {
@@ -189,13 +202,14 @@ export default {
     formData: {
       handler(val) {
         this.initValue(val.formItem)
-        console.log(1)
+        // console.log(1)
       },
       deep: true,
     },
     form: {
       handler(val) {
         this.$emit("values", val)
+        // console.log(val, 1111111)
       },
       deep: true,
     },

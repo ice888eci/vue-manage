@@ -1,10 +1,47 @@
 import dao from "./dao"
 import config from "../config"
-import utils, { Notify } from "../utils"
+import { Notify, FormatReqPath } from "../utils"
 
 class Api {
-  async login(requestParams = {}) {
-    const params = { data: requestParams, url: config.http.urls.login, header: {} }
+  // =======1.2. 登录 ==========
+
+  /***
+   * @POST
+   * @desc 1.2.1. 登录验证接口
+   */
+  async login(par = {}) {
+    const params = { data: par, url: config.http.urls.login, header: {} }
+    try {
+      return await dao.post(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  // =======1.3. 用户管理 ==========
+
+  /***
+   * @GET
+   * @desc 1.3.1. 用户数据列表
+   */
+  async users(par = {}) {
+    const params = { data: par, url: config.http.urls.users, header: {} }
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @POST
+   * @desc 1.3.2. 添加用户
+   */
+  async add_users(par = {}) {
+    const params = { data: par, url: config.http.urls.add_users, header: {} }
+    console.log(params)
     try {
       return await dao.post(params)
     } catch (e) {
@@ -14,69 +51,13 @@ class Api {
   }
 
   /***
-   * @GET
-   * @method menus
-   * @param {void}
-   * @desc 首页Aisde数据
-   */
-  async menus(requestParams = {}) {
-    const params = { data: requestParams, url: config.http.urls.menus, header: {} }
-    try {
-      return await dao.get(params)
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
-
-  /***
-   * @GET
-   * @method users
-   * @param {query?:string} 查询参数
-   * @param {pagenum!:number} 当前页码
-   * @param {pagesize!:number} 每页显示条数
-   * @desc 首页users表格数据
-   */
-  async users(requestParams = {}) {
-    const params = { data: requestParams, url: config.http.urls.users, header: {} }
-    try {
-      const res = await dao.get(params)
-      return res
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
-
-  /***
    * @PUT
-   * @param {uid!:string|number} 用户ID
-   * @param {type!:boolean} 用户状态
+   * @desc 1.3.3. 修改用户状态
    */
-  async users_status(requestParams = {}) {
+  async users_status(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.users_status, requestParams),
-      header: {}
-    }
-    try {
-      const res = await dao.put(params)
-      return res
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
-
-  /***
-   * @PUT
-   * @param {id!:string|number} 用户ID
-   * @param {type!:boolean} 分配用户角色
-   */
-  async user_role(requestParams = {}) {
-    const params = {
-      data: { rid: requestParams.rid },
-      url: utils.formatReqPath(config.http.urls.user_role, requestParams),
+      url: FormatReqPath(config.http.urls.users_status, par),
       header: {}
     }
     try {
@@ -89,31 +70,13 @@ class Api {
   }
 
   /**
-   * @POST
-   * @param {username!:string} 用户名称
-   * @param {password!:string} 用户密码
-   * @param {email!:string} 用户名称
-   * @param {mobile!:string|number} 用户密码
-   */
-  async add_users(requestParams = {}) {
-    const params = { data: requestParams, url: config.http.urls.add_users, header: {} }
-    console.log(params)
-    try {
-      return await dao.post(params)
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
-
-  /**
    * @GET
-   * @param {id!:string} 用户ID
+   * @desc 1.3.4. 根据 ID 查询用户信息
    */
-  async search_users(requestParams = {}) {
+  async search_users(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.search_users, requestParams),
+      url: FormatReqPath(config.http.urls.search_users, par),
       header: {}
     }
     try {
@@ -126,14 +89,48 @@ class Api {
 
   /***
    * @PUT
-   * @param {id!:string|number} 用户ID
-   * @param {email!:string} 邮箱
-   * @param {mobile!:string} 手机号
+   * @desc 1.3.5. 编辑用户提交
    */
-  async edit_users(requestParams = {}) {
+  async edit_users(par = {}) {
     const params = {
-      data: requestParams,
-      url: utils.formatReqPath(config.http.urls.edit_users, requestParams),
+      data: par,
+      url: FormatReqPath(config.http.urls.edit_users, par),
+      header: {}
+    }
+    try {
+      return await dao.put(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @GET
+   * @desc 1.3.6. 删除单个用户
+   */
+  async del_users(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.del_users, par),
+      header: {}
+    }
+    try {
+      return await dao.delete(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @PUT
+   * @desc 1.3.7. 分配用户角色
+   */
+  async user_role(par = {}) {
+    const params = {
+      data: { rid: par.rid },
+      url: FormatReqPath(config.http.urls.user_role, par),
       header: {}
     }
     try {
@@ -145,43 +142,20 @@ class Api {
     }
   }
 
-  /***
-   * @DELETE
-   * @param {id!:string|number} 用户ID
-   */
-  async del_users(requestParams = {}) {
-    const params = {
-      data: {},
-      url: utils.formatReqPath(config.http.urls.del_users, requestParams),
-      header: {}
-    }
-    try {
-      const res = await dao.delete(params)
-      console.log(res, 11)
-      return res
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
+  // ======== 1.4. 权限管理 ========
 
   /***
-   * @name 权限管理
    * @GET
-   * @param {type!:string} 值 list or tree list列表显示权限, tree树状显示权限
-   * @desc 所有权限列表接口
+   * @desc 1.4.1. 所有权限列表
    */
-  async all_rights(requestParams = {}) {
+  async all_rights(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.all_rights, requestParams),
+      url: FormatReqPath(config.http.urls.all_rights, par),
       header: {}
     }
-    // console.log(params)
     try {
-      const res = await dao.get(params)
-      // console.log(res, 11)
-      return res
+      return await dao.get(params)
     } catch (e) {
       console.log(e.message)
       return null
@@ -189,22 +163,33 @@ class Api {
   }
 
   /***
-   * @name
-   * @DELETE
-   * @param {type!:string} 值 list or tree list列表显示权限, tree树状显示权限
-   * @desc 角色列表
+   * @GET
+   * @desc ### 1.4.2. 左侧菜单权限
    */
-  async all_roles(requestParams = {}) {
+  async menus(par = {}) {
+    const params = { data: par, url: config.http.urls.menus, header: {} }
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  // ======== 1.5. 角色管理 ========
+
+  /***
+   * @GET
+   * @desc 1.5.1. 角色列表
+   */
+  async all_roles(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.all_roles, requestParams),
+      url: FormatReqPath(config.http.urls.all_roles, par),
       header: {}
     }
-    // console.log(params)
     try {
-      const res = await dao.get(params)
-      // console.log(res, 11)
-      return res
+      return await dao.get(params)
     } catch (e) {
       console.log(e.message)
       return null
@@ -212,14 +197,11 @@ class Api {
   }
 
   /***
-   * @name
    * @POST
-   * @param {type!:string} 值 roleName角色名称 or roleDesc角色描述
-   * @desc 添加角色
+   * @desc 1.5.2. 添加角色
    */
-  async add_roles(requestParams = {}) {
-    const params = { data: requestParams, url: config.http.urls.add_roles, header: {} }
-    // console.log(params)
+  async add_roles(par = {}) {
+    const params = { data: par, url: config.http.urls.add_roles, header: {} }
     try {
       return await dao.post(params)
     } catch (e) {
@@ -229,20 +211,17 @@ class Api {
   }
 
   /***
-   * @name
    * @GET
-   * @param {id!:string} 角色 ID
-   * @desc 根据ID查询角色
+   * @desc 1.5.3. 根据 ID 查询角色
    */
-  async search_roles(requestParams = {}) {
+  async search_roles(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.search_roles, requestParams),
+      url: FormatReqPath(config.http.urls.search_roles, par),
       header: {}
     }
     try {
-      const res = await dao.get(params)
-      return res
+      return await dao.get(params)
     } catch (e) {
       console.log(e.message)
       return null
@@ -250,21 +229,17 @@ class Api {
   }
 
   /***
-   * @name
    * @PUT
-   * @param {id!:string,roleName?:string,roleDesc?:string}
-   * @desc 编辑提交角色
+   * @desc 1.5.4. 编辑提交角色
    */
-  async edit_roles(requestParams = {}) {
+  async edit_roles(par = {}) {
     const params = {
-      data: requestParams,
-      url: utils.formatReqPath(config.http.urls.edit_roles, requestParams),
+      data: par,
+      url: FormatReqPath(config.http.urls.edit_roles, par),
       header: {}
     }
-    console.log(params)
     try {
-      const res = await dao.put(params)
-      return res
+      return await dao.put(params)
     } catch (e) {
       console.log(e.message)
       return null
@@ -272,63 +247,237 @@ class Api {
   }
 
   /***
-   * @name
    * @DELETE
-   * @param {id!:string}
-   * @desc 删除角色
+   * @desc 1.5.5. 删除角色
    */
-  async del_roles(requestParams = {}) {
+  async del_roles(par = {}) {
     const params = {
       data: {},
-      url: utils.formatReqPath(config.http.urls.del_roles, requestParams),
+      url: FormatReqPath(config.http.urls.del_roles, par),
       header: {}
     }
     try {
-      const res = await dao.delete(params)
-      return res
+      return await dao.delete(params)
     } catch (e) {
       console.log(e.message)
       return null
     }
   }
 
-  /***
-   * @name
-   * @DELETE
-   * @param {roleId!:string,rightId:string}
-   * @desc 删除角色指定的权限
-   */
-  async del_user_roles(requestParams = {}) {
-    const params = {
-      data: {},
-      url: utils.formatReqPath(config.http.urls.del_user_roles, requestParams),
-      header: {}
-    }
-    try {
-      const res = await dao.delete(params)
-      return res
-    } catch (e) {
-      console.log(e.message)
-      return null
-    }
-  }
-
-  /***
-   * @name
+  /**
    * @POST
-   * @param {roleId!:string,rightId:string}
-   * @desc 更新树状权限
+   * @desc 1.5.6. 角色授权
    */
-  async update_roles(requestParams = {}) {
+  async update_roles(par = {}) {
     const params = {
-      data: { rids: requestParams.rids },
-      url: utils.formatReqPath(config.http.urls.update_roles, requestParams),
+      data: { rids: par.rids },
+      url: FormatReqPath(config.http.urls.update_roles, par),
       header: {}
     }
-    console.log(params)
     try {
-      const res = await dao.post(params)
-      return res
+      return await dao.post(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @delete
+   * @desc 1.5.7. 删除角色指定权限
+   */
+  async del_user_roles(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.del_user_roles, par),
+      header: {}
+    }
+    try {
+      return await dao.delete(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * ===========1.6.商品分类管理==========
+   */
+
+  /**
+   * @GET
+   * @desc 1.6.1. 商品分类数据列表
+   */
+  async all_categories(par = {}) {
+    const params = {
+      data: par,
+      url: config.http.urls.all_categories,
+      header: {}
+    }
+    // console.log(params)
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @POST
+   * @desc 1.6.2. 添加分类
+   */
+  async add_categories(par = {}) {
+    const params = { data: par, url: config.http.urls.add_categories, header: {} }
+    try {
+      return await dao.post(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @GET
+   * @desc 1.6.3. 根据 id 查询分类
+   */
+  async search_categories(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.search_categories, par),
+      header: {}
+    }
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @PUT
+   * @desc 1.6.4. 编辑提交分类
+   */
+  async update_categories(par = {}) {
+    const params = {
+      data: { cat_name: par.cat_name },
+      url: FormatReqPath(config.http.urls.update_categories, par),
+      header: {}
+    }
+    try {
+      return await dao.put(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @DELETE
+   * @desc 1.6.5. 删除分类
+   */
+  async del_categories(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.del_categories, par),
+      header: {}
+    }
+    try {
+      return await dao.delete(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  ///////////////////////////////////////////////
+
+  /**
+   * ===========1.7. 分类参数管理==========
+   */
+
+  /**
+   * @GET
+   * @desc 1.7.1. 参数列表
+   */
+  async all_attributes(par = {}) {
+    const params = {
+      data: par,
+      url: config.http.urls.all_attributes,
+      header: {}
+    }
+    // console.log(params)
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @POST
+   * @desc 1.6.2. 添加分类
+   */
+  async add_attributes(par = {}) {
+    const params = { data: par, url: config.http.urls.add_attributes, header: {} }
+    try {
+      return await dao.post(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /**
+   * @GET
+   * @desc 1.6.3. 根据 id 查询分类
+   */
+  async search_attributes(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.search_attributes, par),
+      header: {}
+    }
+    try {
+      return await dao.get(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @PUT
+   * @desc 1.6.4. 编辑提交分类
+   */
+  async update_attributes(par = {}) {
+    const params = {
+      data: { cat_name: par.cat_name },
+      url: FormatReqPath(config.http.urls.update_attributes, par),
+      header: {}
+    }
+    try {
+      return await dao.put(params)
+    } catch (e) {
+      console.log(e.message)
+      return null
+    }
+  }
+
+  /***
+   * @DELETE
+   * @desc 1.6.5. 删除分类
+   */
+  async del_attributes(par = {}) {
+    const params = {
+      data: {},
+      url: FormatReqPath(config.http.urls.del_attributes, par),
+      header: {}
+    }
+    try {
+      return await dao.delete(params)
     } catch (e) {
       console.log(e.message)
       return null

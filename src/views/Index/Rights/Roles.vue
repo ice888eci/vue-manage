@@ -10,7 +10,7 @@
         </el-row>
       </section>
 
-      <section class="card_table">
+      <section class="card_table" style="margin: 15px 0">
         <el-table :data="roleList" style="width: 100%">
           <el-table-column type="expand">
             <template #default="props">

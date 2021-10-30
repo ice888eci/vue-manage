@@ -26,13 +26,6 @@ class Utils {
     return false
   }
 
-  formatReqPath(url, params) {
-    for (const [key, val] of Object.entries(params)) {
-      url = url.replace(`:${key}`, val)
-    }
-    return url
-  }
-
   getLeafKeys(node, arr) {
     // 如果当前 node 节点不包含 children属性, 则是三级节点
     if (!node.children) return arr.push(node.id)
@@ -53,4 +46,10 @@ export function Notify(params) {
   }
   Object.assign(normal, params)
   Notification(normal)
+}
+export function FormatReqPath(url, params) {
+  for (const [key, val] of Object.entries(params)) {
+    url = url.replace(`:${key}`, val)
+  }
+  return url
 }
