@@ -17,6 +17,7 @@ module.exports = {
       .set("less", resolve("./src/assets/less"))
       .set("img", resolve("./src/assets/img"))
       .set("svg", resolve("./src/assets/svg"))
+      .set("config", resolve("./src/config"))
       .set("components", resolve("./src/components"))
       .set("views", resolve("./src/views"))
       .set("utils", resolve("./src/utils"))

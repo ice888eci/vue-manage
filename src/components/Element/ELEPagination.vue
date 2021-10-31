@@ -17,16 +17,16 @@ export default {
   name: "ELEPagination",
   props: {
     pagenum: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     pagesize: {
-      type: Number,
+      type: [Number, String],
       default: 2,
     },
 
     total: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
 

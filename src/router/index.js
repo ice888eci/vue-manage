@@ -72,7 +72,12 @@ const routes = [
         component: () => import("../views/Index/Goods/Params.vue"),
         meta: { isLogin: true }
       },
-
+      {
+        path: "addGoods",
+        name: "IndexAddGoods",
+        component: () => import("../views/Index/Goods/AddGoods.vue"),
+        meta: { isLogin: true }
+      },
       {
         path: "categories",
         name: "IndexCategories",

@@ -1,5 +1,12 @@
 import Vue from "vue"
 
+// 导入富文本编辑器及样式
+import VueQuillEditor from "vue-quill-editor"
+import "quill/dist/quill.core.css" // import styles
+import "quill/dist/quill.snow.css" // for snow theme
+import "quill/dist/quill.bubble.css" // for bubble theme
+Vue.use(VueQuillEditor)
+
 // element-ui引入
 import "element-ui/lib/theme-chalk/index.css"
 import {
@@ -37,10 +44,20 @@ import {
   Tree,
   Select,
   Option,
-  Alert
+  Alert,
+  Step,
+  Steps,
+  Checkbox,
+  CheckboxGroup,
+  Upload
 } from "element-ui"
 
 const comps = [
+  Upload,
+  Checkbox,
+  CheckboxGroup,
+  Step,
+  Steps,
   Alert,
   Cascader,
   Carousel,

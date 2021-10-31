@@ -29,6 +29,17 @@ export default {
       isCollapse: false,
     }
   },
+  methods: {
+    async open() {
+      try {
+        await this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {})
+        this.$message({ type: "success", message: "删除成功!" })
+      } catch (error) {
+        this.$message({ type: "info", message: "已取消删除" })
+      }
+    },
+  },
+
   components: { ElEHeader, ElEAside, ElETabs },
 }
 </script>
